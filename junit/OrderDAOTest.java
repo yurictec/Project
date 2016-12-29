@@ -1,5 +1,3 @@
-package junit;
-
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;

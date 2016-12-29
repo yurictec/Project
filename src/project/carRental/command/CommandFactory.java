@@ -16,16 +16,16 @@ public class CommandFactory {
 
     private CommandFactory() {
         map.put("LOGIN", new LoginCommand(new Security()));
-        map.put("REGISTRATION", new RegistrationCommand(new Registration()));
+        map.put("REGISTRATION", new RegistrationCommand());
         map.put("BOOKING", new BookingCommand(new Booking()));
-        map.put("FORMFILLING", new FormFillingCommand(new FormFilling()));
-        map.put("ADMINSERVICE", new AdminCommand(new Admin()));
-        map.put("CONTINUE", new EndWorkCommand(new EndWork()));
-        map.put("FORMFILLINGCAR", new CorrectCarCommand(new CorrectCar()));
-        map.put("MYACCOUNT", new AccountCommand(new Account()));
-        map.put("MANAGERCORRECT", new ManagerCorrectCommand(new ManagerCorrect()));
-        map.put("CHANGESTATUS", new ChangeStatusCommand(new ChangeStatus()));
-        map.put("PAYMENT", new PaymentCommand(new Payment()));
+        map.put("FORMFILLING", new FormFillingCommand());
+        map.put("ADMINSERVICE", new AdminCommand());
+        map.put("CONTINUE", new EndWorkCommand());
+        map.put("FORMFILLINGCAR", new CorrectCarCommand());
+        map.put("MYACCOUNT", new AccountCommand());
+        map.put("MANAGERCORRECT", new ManagerCorrectCommand());
+        map.put("CHANGESTATUS", new ChangeStatusCommand());
+        map.put("PAYMENT", new PaymentCommand());
     }
 
     /**

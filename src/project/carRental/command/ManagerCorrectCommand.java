@@ -1,7 +1,8 @@
 package project.carRental.command;
 
 import project.carRental.constantPages.ConstantPage;
-import project.carRental.services.ManagerCorrect;
+import project.carRental.dao.implementations.OrderDAO;
+import project.carRental.entity.Order;
 import project.carRental.utils.TableCar;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,11 +13,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 public class ManagerCorrectCommand implements Command {
-    private ManagerCorrect managerCorrect;
-
-    ManagerCorrectCommand(ManagerCorrect managerCorrect) {
-        this.managerCorrect = managerCorrect;
-    }
 
     @Override
     public String exequte(HttpServletRequest request, HttpServletResponse response) {
@@ -30,6 +26,18 @@ public class ManagerCorrectCommand implements Command {
             return ConstantPage.NOT_NEW_ORDERS_PAGE;
         }
         int idOrder = Integer.parseInt(id);
-        return managerCorrect.correctOrder(idOrder, request);
+        OrderDAO orderDAO = OrderDAO.getInstance();
+        Order o = orderDAO.getById(idOrder);
+        if (o == null) {
+            return ConstantPage.ERROR_PAGE;
+        }
+        request.setAttribute("idOrder", o.getId());
+        request.setAttribute("carBrand", o.getCarBrand());
+        request.setAttribute("carMake", o.getCarMake());
+        request.setAttribute("fname", o.getfNameUser());
+        request.setAttribute("lname", o.getlNameUser());
+        request.setAttribute("sum", o.getSum());
+        request.setAttribute("stat", o.getStat());
+        return ConstantPage.FORM_FILLING_MANAGER_PAGE;
     }
 }

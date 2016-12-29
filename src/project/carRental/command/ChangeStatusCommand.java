@@ -1,7 +1,9 @@
 package project.carRental.command;
 
 import project.carRental.constantPages.ConstantPage;
-import project.carRental.services.ChangeStatus;
+import project.carRental.dao.implementations.OrderDAO;
+import project.carRental.entity.Order;
+import project.carRental.utils.TableCar;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,13 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ChangeStatusCommand implements Command {
 
-    private ChangeStatus changeStatus;
-
-    ChangeStatusCommand(ChangeStatus changeStatus) {
-        this.changeStatus = changeStatus;
-    }
-
-
     @Override
     public String exequte(HttpServletRequest request, HttpServletResponse response) {
         String status = request.getParameter("status");
@@ -28,6 +23,15 @@ public class ChangeStatusCommand implements Command {
             return ConstantPage.ERROR_PAGE;
         }
         int idOrder = Integer.parseInt(id);
-        return changeStatus.change(status, idOrder, request);
+        OrderDAO orderDAO = OrderDAO.getInstance();
+        Order order = new Order();
+        order.setId(idOrder);
+        order.setStat(status);
+        int mod = orderDAO.update(order);
+        if (mod != 1) {
+            return ConstantPage.ERROR_PAGE;
+        }
+        TableCar.createTableOrderForManager(request);
+        return ConstantPage.MANAGER_PAGE;
     }
 }

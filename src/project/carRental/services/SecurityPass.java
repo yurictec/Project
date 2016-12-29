@@ -8,8 +8,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Created by Администратор on 28.12.2016.
+ * @author Yuriy Kolennikov
  */
+
 public class SecurityPass {
 
     private static final Logger LOGGER = Logger.getLogger(Security.class.getName());

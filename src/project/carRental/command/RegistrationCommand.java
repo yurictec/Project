@@ -1,6 +1,10 @@
 package project.carRental.command;
 
-import project.carRental.services.Registration;
+import project.carRental.constantPages.ConstantPage;
+import project.carRental.dao.implementations.UserDAO;
+import project.carRental.entity.Role;
+import project.carRental.entity.User;
+import project.carRental.services.SecurityPass;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,11 +14,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 public class RegistrationCommand implements Command {
-    private Registration r;
-
-    RegistrationCommand(Registration r) {
-        this.r = r;
-    }
 
     @Override
     public String exequte(HttpServletRequest request, HttpServletResponse response) {
@@ -25,7 +24,21 @@ public class RegistrationCommand implements Command {
         String age = "";
         String phone = "";
 
-        return r.createUser(email, pass, fname, lname, age, phone);
+        UserDAO userDAO = UserDAO.getInstance();
+        User user = userDAO.getUserByEmail(email);
+        if (user != null) {
+            return ConstantPage.THERES_A_MAIL_PAGE;
+        }
+        Role role = new Role();
+        role.setId(1);
+        String passCrypt = SecurityPass.passCrypt(pass);
+        user = new User(role, email, passCrypt, fname, lname, age, phone);
+        int i;
+        i = userDAO.insert(user);
+        if (i != 0) {
+            return ConstantPage.LOGIN_AFTER_REGISTRATION_PAGE;
+        }
+        return ConstantPage.REGISTRATION_PAGE;
     }
 
 }

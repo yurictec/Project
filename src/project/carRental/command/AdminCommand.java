@@ -1,12 +1,12 @@
 package project.carRental.command;
 
-import project.carRental.services.Admin;
+import project.carRental.constantPages.ConstantPage;
+import project.carRental.dao.implementations.CarDAO;
+import project.carRental.entity.Car;
 import project.carRental.utils.TableCar;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import static project.carRental.constantPages.ConstantPage.ADMIN_PAGE;
 
 /**
  * Created by Yuriy Kolennikov
@@ -14,23 +14,25 @@ import static project.carRental.constantPages.ConstantPage.ADMIN_PAGE;
 
 public class AdminCommand implements Command {
 
-    private Admin admin;
-
-    /**
-     * @param admin admin
-     */
-    AdminCommand(Admin admin) {
-        this.admin = admin;
-    }
-
     @Override
     public String exequte(HttpServletRequest request, HttpServletResponse response) {
         String id = request.getParameter("carCorr");
         if (id != null) {
             int idCar = Integer.parseInt(id);
-            return admin.getDataCar(request, idCar);
+            CarDAO carDAO = CarDAO.getInstance();
+            Car car = carDAO.getById(idCar);
+            if (car == null) {
+                return ConstantPage.ERROR_PAGE;
+            }
+            request.setAttribute("brand", car.getBrand());
+            request.setAttribute("make", car.getMake());
+            request.setAttribute("equipment", car.getEquipment());
+            request.setAttribute("stat", car.getStat());
+            request.setAttribute("price", car.getPrice());
+            request.getSession().setAttribute("carCorr", car.getId());
+            return ConstantPage.FORM_FILLING_ADMIN_PAGE;
         }
         TableCar.createTableCarForAdmin(request);
-        return ADMIN_PAGE;
+        return ConstantPage.ADMIN_PAGE;
     }
 }
