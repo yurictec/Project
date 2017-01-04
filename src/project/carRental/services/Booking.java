@@ -22,21 +22,21 @@ public class Booking {
         CarDAO carDAO = CarDAO.getInstance();
         Car car = carDAO.getById(id);
         assert car != null;
-        String STAT2 = "Busy";
-        if (car.getStat().equals(STAT2)) {
+        String Stat2 = "Busy";
+        if (car.getStat().equals(Stat2)) {
             TableCar.createTableCarForUser(request);
             return BOOKING_ERROR_TRY_AGAIN_PAGE;
-        }
-        car.setStat(STAT2);
-        int result = carDAO.updateStat(car.getId(), STAT2);
-        if (result == 1) {
+        }else {
+//        car.setStat(Stat2);
+//        int result = carDAO.updateStat(car.getId(), Stat2);
+//        if (result == 1) {
             getUser(request, id, day);
             request.getSession().setAttribute("idCar", id);
             request.getSession().setAttribute("day", day);
             return FORM_FILLING_USER_PAGE;
         }
-        TableCar.createTableCarForUser(request);
-        return BOOKING_NOT_AVAILABLE_TRY_AGAIN_PAGE;
+//        TableCar.createTableCarForUser(request);
+//        return BOOKING_NOT_AVAILABLE_TRY_AGAIN_PAGE;
     }
 
     private void getUser(HttpServletRequest request, int idCar, int day) {

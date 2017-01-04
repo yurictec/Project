@@ -34,7 +34,8 @@ public class FormFillingCommand implements Command {
         UserDAO userDAO = UserDAO.getInstance();
         User user = new User(idUser, fname, lname, email, age, phone);
         int result = userDAO.update(user);
-        if (result == 1) {
+        int result2 = CarDAO.getInstance().updateStat((Integer) request.getSession().getAttribute("idCar"), "Busy");
+        if (result == 1 & result2 == 1) {
             creatOrder(request, day, email);
             request.setAttribute("start", start);
             request.setAttribute("end", end);

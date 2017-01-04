@@ -19,8 +19,8 @@
                 </tr>
             </c:forEach>
             <td>
-                Start date of hire cars: <input type="date" value="2015-01-01" name="start">
-                End date of hire cars: <input type="date" value="2015-01-01" name="end">
+                Start date of hire cars: <input type="date" value="2017-01-05" name="start">
+                End date of hire cars: <input type="date" value="2017-01-06" name="end">
             </td>
             <tr>
                 <td>
